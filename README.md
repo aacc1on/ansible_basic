@@ -101,10 +101,10 @@ ansible-playbook -i inventory.ini site.yml
 
 ```ini
 [web]
-192.168.1.100 ansible_user=root ansible_ssh_private_key_file=~/alpine-key
+<myip> ansible_user=root ansible_ssh_private_key_file=~/alpine-key
 
 [db]
-192.168.1.101 ansible_user=root ansible_ssh_private_key_file=~/alpine-key
+<myip> ansible_user=root ansible_ssh_private_key_file=~/alpine-key
 ```
 
 ### Variables (`vars.yml`)
