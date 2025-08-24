@@ -1,0 +1,5 @@
+[web]
+<ip_address> ansible_user=root ansible_ssh_private_key_file=~/mykey
+
+[db]
+<ip_address> ansible_user=root ansible_ssh_private_key_file=~/mykey

@@ -1,6 +1,7 @@
+
 - hosts: web
   become: yes
   vars_files:
     - ../vars.yml 
   roles:
-    - web
+    - role: ../roles/web

@@ -1,0 +1,56 @@
+---
+- hosts: db
+  become: yes
+  tasks:
+    - name: Stop MariaDB service
+      service:
+        name: mariadb
+        state: stopped
+      ignore_errors: yes
+
+    - name: Disable MariaDB service
+      command: rc-update del mariadb
+      ignore_errors: yes
+
+    - name: Remove MariaDB packages
+      apk:
+        name:
+          - mysql
+          - mysql-client
+          - mariadb
+          - mariadb-client
+          - mariadb-common
+          - mariadb-openrc
+          - py3-pymysql
+          - libaio
+          - libxml2
+        state: absent
+
+    - name: Remove MariaDB data directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/mysql
+        - /var/log/mysql
+        - /etc/mysql
+        - /run/mysqld
+
+    - name: Remove MariaDB config files
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/my.cnf
+        - /etc/mysql/my.cnf
+
+    - name: Kill any remaining MariaDB processes
+      command: pkill -f "{{ item }}"
+      loop:
+        - mariadb
+        - mysql
+        - mysqld
+      ignore_errors: yes
+
+    - name: Clean package cache
+      command: apk cache clean

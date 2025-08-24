@@ -1,23 +1,49 @@
-- name: Install MySQL server
-  apt:
-    name: mysql-server
+- name: Install PostgreSQL and dependencies (Alpine)
+  apk:
+    name: 
+      - postgresql
+      - postgresql-client
+      - py3-psycopg2
     state: present
     update_cache: yes
 
-- name: Ensure MySQL service is started
+- name: Initialize PostgreSQL database
+  command: sudo -u postgres initdb -D /var/lib/postgresql/data
+  args:
+    creates: /var/lib/postgresql/data/PG_VERSION
+  become: yes
+
+- name: Start and enable PostgreSQL service
   service:
-    name: mysql
+    name: postgresql
     state: started
     enabled: yes
 
+- name: Wait for PostgreSQL to start
+  wait_for:
+    port: 5432
+    delay: 5
+    timeout: 30
+
 - name: Create database
-  mysql_db:
+  postgresql_db:
     name: "{{ db_name }}"
     state: present
+  become_user: postgres
 
 - name: Create database user
-  mysql_user:
+  postgresql_user:
     name: "{{ db_user }}"
     password: "{{ db_password }}"
-    priv: "{{ db_name }}.*:ALL"
+    db: "{{ db_name }}"
+    priv: "ALL"
     state: present
+  become_user: postgres
+
+- name: Grant database privileges to user
+  postgresql_privs:
+    db: "{{ db_name }}"
+    privs: ALL
+    type: database
+    role: "{{ db_user }}"
+  become_user: postgres

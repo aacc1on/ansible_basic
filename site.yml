@@ -1,0 +1,15 @@
+---
+# Main site playbook - deploys entire infrastructure
+- hosts: web
+  become: yes
+  vars_files:
+    - vars.yml 
+  roles:
+    - web
+
+- hosts: db
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - db
