@@ -1,4 +1,4 @@
-փոխիր այնպես որ ես ոչ թե օգտագործել եմ sqlliteայլ postgres# 🏔️ Alpine Ansible Infrastructure 
+# 🏔️ Alpine Ansible Infrastructure 
 
 [![Alpine Linux](https://img.shields.io/badge/Alpine_Linux-3.22+-0D597F?style=for-the-badge&logo=alpine-linux&logoColor=white)](https://alpinelinux.org/)
 [![Ansible](https://img.shields.io/badge/Ansible-2.9+-EE0000?style=for-the-badge&logo=ansible&logoColor=white)](https://ansible.com/)
